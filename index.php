@@ -63,7 +63,7 @@ if(isset($_POST['delete'])) {
 
           <form action="update.php" method="post" style="display: inline">
             <input type="hidden" name="id" value="<?php echo $rows['user_id'];?>">
-            <input type="submit" value="Update" name="update">
+            <input type="submit" value="Update" name="update" class="btn btn-primary btn-sm">
         </form>
         <!-- Delete button -->
         <form method="POST" style="display: inline;">

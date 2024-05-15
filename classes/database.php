@@ -62,6 +62,17 @@ class database{
             
         }
     }
+    function viewdata($id){
+        try {
+            $con = $this->opencon();    
+            $query = $con->prepare("SELECT users.user_id, users.username, users.passwords, users.first_name, users.last_name, users.birthday, users.sex, users_address.Users_add_street, users_address.Users_add_barangay, users_address.Users_add_city, users_address.User_add_province FROM users JOIN users_address ON users.user_id=users_address.user_id WHERE users.user_id = ?");
+            $query->execute([$id]);
+            return $query->fetch();
+        } catch (PDOException $e) {
+            return [];
+            
+        }
+    }
     
 
 }
