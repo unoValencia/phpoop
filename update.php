@@ -1,6 +1,13 @@
 <?php
-$user_id=$_POST ["id"];
-echo $user_id;
+require_once('classes/database.php');
+$con = new database();
+
+if (empty($_POST['id'])) {
+    header('location:index.php');
+}else{
+    $id = $_POST['id'];
+    $data = $con->viewdata($id);
+}
 ?>
 
 <!DOCTYPE html>
