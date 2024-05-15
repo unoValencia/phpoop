@@ -73,6 +73,31 @@ class database{
             
         }
     }
-    
+    function updateUser($user_id, $username, $password, $firstName, $lastName, $birthday, $sex){
+        try {
+            $con = $this->opencon();    
+            $con->beginTransaction();
+            $query = $con->prepare("UPDATE users SET username=?,passwords=?,first_name=?,last_name=?,birthday=?,sex=? WHERE user_id=?");
+            $query->execute([$username, $password, $firstName, $lastName, $birthday, $sex, $user_id]);
+            $con->commit();
+        }
+        catch (PDOException $e) {
+            $con->rollBack();
+            return false;
+        }
+    }
+    function updateUserAddress($user_id, $city, $province, $street, $barangay){
+        try {
+            $con = $this->opencon();    
+            $con->beginTransaction();
+            $query = $con->prepare("UPDATE users_address SET Users_add_city=?, User_add_province=?,Users_add_street=?,Users_add_barangay=? WHERE user_id=?");
+            $query->execute([$city, $province, $street, $barangay, $user_id]);
+            $con->commit();
+        }
+        catch (PDOException $e) {
+            $con->rollBack();
+            return false;
+        }
+    }
 
 }
