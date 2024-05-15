@@ -58,7 +58,13 @@ if(isset($_POST['delete'])) {
           <td><?php echo $rows['username'];?></td>
           <td><?php echo $rows['address'];?></td>
           <td>
-          <a href="#" class="btn btn-primary btn-sm">Edit</a>
+
+
+
+          <form action="update.php" method="post" style="display: inline">
+            <input type="hidden" name="id" value="<?php echo $rows['user_id'];?>">
+            <input type="submit" value="Update" name="update">
+        </form>
         <!-- Delete button -->
         <form method="POST" style="display: inline;">
             <input type="hidden" name="id" value="<?php echo $rows['user_id'];?>">
@@ -76,7 +82,6 @@ if(isset($_POST['delete'])) {
 </div>
 </div>
 
-<h2>new</h2>
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
