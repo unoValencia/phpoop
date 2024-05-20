@@ -7,10 +7,10 @@ class database{
     }
     function check($username, $password){
         $con = $this->opencon();
-        $query = "Select * from users WHERE username='".$username."'&&passwords='".$password."'";
-        return $con->query($query)->fetch();
+        $query = "SELECT * from users WHERE username='".$username."'&& passwords='".$password."'";
+        return  $con->query($query)->fetch();
     }
-    function signup($username, $password, $firstname, $lastname, $birthday, $sex){
+    function signup($username, $password, $firstName, $lastName, $birthday, $sex){
         $con = $this->opencon();
     
         $query = $con->prepare("SELECT username FROM users WHERE username = ?");
@@ -21,7 +21,7 @@ class database{
         }
     
         $query = $con->prepare("INSERT INTO users (username, passwords, first_name, last_name, birthday, sex) VALUES (?, ?, ?, ?, ?,?)");
-        return $query->execute([$username, $password, $firstname, $lastname, $birthday,$sex]);
+        return $query->execute([$username, $password, $firstName, $lastName, $birthday,$sex]);
     }
     function signupUser($username, $password, $firstName, $lastName, $birthday, $sex) {
         $con = $this->opencon();
@@ -42,7 +42,7 @@ class database{
     }
     function view(){
         $con = $this->opencon();
-        return $con->query("SELECT users.user_id, users.username, users.passwords, users.first_name, users.last_name, users.birthday, users.sex, CONCAT(users_address.Users_add_street,' ', users_address.Users_add_barangay,' ', users_address.Users_add_city,' ', users_address.User_add_province) AS address FROM users JOIN users_address ON users.user_id=users_address.user_id")->fetchAll();
+        return $con->query("SELECT users.user_id, users.first_name, users.last_name,users.passwords, users.birthday, users.sex, users.username, CONCAT(users_address.Users_add_street,' ', users_address.Users_add_barangay,' ', users_address.Users_add_city,' ', users_address.User_add_province) AS address FROM users JOIN users_address ON users.user_id=users_address.user_id")->fetchAll();
     }
     function delete($id){
         try {
@@ -73,13 +73,14 @@ class database{
             
         }
     }
-    function updateUser($user_id, $username, $password, $firstName, $lastName, $birthday, $sex){
+    function updateUser($user_id, $firstname, $lastname, $birthday, $sex, $username, $password){
         try {
             $con = $this->opencon();    
             $con->beginTransaction();
             $query = $con->prepare("UPDATE users SET username=?,passwords=?,first_name=?,last_name=?,birthday=?,sex=? WHERE user_id=?");
-            $query->execute([$username, $password, $firstName, $lastName, $birthday, $sex, $user_id]);
+            $query->execute([$username, $password, $firstname, $lastname, $birthday, $sex, $user_id]);
             $con->commit();
+            return true;
         }
         catch (PDOException $e) {
             $con->rollBack();
@@ -93,6 +94,7 @@ class database{
             $query = $con->prepare("UPDATE users_address SET Users_add_city=?, User_add_province=?,Users_add_street=?,Users_add_barangay=? WHERE user_id=?");
             $query->execute([$city, $province, $street, $barangay, $user_id]);
             $con->commit();
+            return true;
         }
         catch (PDOException $e) {
             $con->rollBack();
