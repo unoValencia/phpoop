@@ -23,26 +23,43 @@ class database{
         $query = $con->prepare("INSERT INTO users (username, passwords, first_name, last_name, birthday, sex) VALUES (?, ?, ?, ?, ?,?)");
         return $query->execute([$username, $password, $firstName, $lastName, $birthday,$sex]);
     }
-    function signupUser($username, $password, $firstName, $lastName, $birthday, $sex) {
+    function signupUser($firstname, $lastname, $birthday, $sex, $email, $username, $password, $profilePicture)
+    {
         $con = $this->opencon();
-    
-        $query = $con->prepare("SELECT username FROM users WHERE username = ?");
-        $query->execute([$username]);
-        $existingUser = $query->fetch();
-        if ($existingUser){
-            return false; 
-        }
-        $query = $con->prepare("INSERT INTO users (username, passwords, first_name, last_name, birthday, sex) VALUES (?, ?, ?, ?, ?,?)");
-        $query->execute([$username, $password, $firstName, $lastName, $birthday,$sex]);
+        // Save user data along with profile picture path to the database
+        $con->prepare("INSERT INTO users (first_name, last_name, birthday, sex, user_email, username, passwords, user_profile) VALUES (?,?,?,?,?,?,?,?)")->execute([$firstname, $lastname, $birthday, $sex, $email, $username, $password, $profilePicture]);
         return $con->lastInsertId();
-    }function insertAddress($user_id, $city, $province, $street, $barangay) {
+        }
+    
+
+    
+    function insertAddress($user_id, $street, $barangay, $city, $province)
+    {
         $con = $this->opencon();
-        return $con->prepare("INSERT INTO users_address (user_id, Users_add_city, User_add_province, Users_add_street, Users_add_barangay) VALUES (?, ?, ?, ?, ?)")
-            ->execute([$user_id, $city, $province, $street, $barangay]);
+        return $con->prepare("INSERT INTO users_address (user_id, Users_add_street, Users_add_barangay, Users_add_city,User_add_province) VALUES (?,?,?,?,?)")->execute([$user_id, $street, $barangay,  $city, $province]);
+          
     }
+
+    // function signupUser($username, $password, $firstName, $lastName, $birthday, $sex) {
+    //     $con = $this->opencon();
+    
+    //     $query = $con->prepare("SELECT username FROM users WHERE username = ?");
+    //     $query->execute([$username]);
+    //     $existingUser = $query->fetch();
+    //     if ($existingUser){
+    //         return false; 
+    //     }
+    //     $query = $con->prepare("INSERT INTO users (username, passwords, first_name, last_name, birthday, sex) VALUES (?, ?, ?, ?, ?,?)");
+    //     $query->execute([$username, $password, $firstName, $lastName, $birthday,$sex]);
+    //     return $con->lastInsertId();
+    // }function insertAddress($user_id, $city, $province, $street, $barangay) {
+    //     $con = $this->opencon();
+    //     return $con->prepare("INSERT INTO users_address (user_id, Users_add_city, User_add_province, Users_add_street, Users_add_barangay) VALUES (?, ?, ?, ?, ?)")
+    //         ->execute([$user_id, $city, $province, $street, $barangay]);
+    // }
     function view(){
         $con = $this->opencon();
-        return $con->query("SELECT users.user_id, users.first_name, users.last_name,users.passwords, users.birthday, users.sex, users.username, CONCAT(users_address.Users_add_street,' ', users_address.Users_add_barangay,' ', users_address.Users_add_city,' ', users_address.User_add_province) AS address FROM users JOIN users_address ON users.user_id=users_address.user_id")->fetchAll();
+        return $con->query("SELECT users.user_id, users.user_profile, users.first_name, users.last_name,users.passwords, users.birthday, users.sex, users.username, CONCAT(users_address.Users_add_street,' ', users_address.Users_add_barangay,' ', users_address.Users_add_city,' ', users_address.User_add_province) AS address FROM users JOIN users_address ON users.user_id=users_address.user_id")->fetchAll();
     }
     function delete($id){
         try {
