@@ -9,19 +9,17 @@ if(isset($_SESSION["username"])) {
 ?>
  
 <?php
-if(isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $result = $con->check($username,$password);
-    if($result){
-        if ($result['username'] == $_POST['username'] && $result['password'] == $_POST['passwords']) {
-            $_SESSION['username'] = $result['username'];
-            header('location:index.php');
-    }
-    else { echo "error";}
-       
- }
- else { echo "error";}
+if (isset($_POST['login'])) {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $result = $con->check($username, $password);
+
+  if ($result) {
+      $_SESSION['username'] = $result['username'];
+      header('location:index.php');
+  } else {
+      $error = "Incorrect username or password. Please try again.";
+  }
 }
  
 ?>
