@@ -5,7 +5,7 @@ class database{
     function opencon(){
         return new PDO('mysql:host=localhost; dbname=loginmethod', 'root', '');
     }
-    function check($username, $password) {
+    function check($username, $password ) {
         // Open database connection
         $con = $this->opencon();
     
@@ -20,6 +20,7 @@ class database{
         if ($username && password_verify($password, $username['passwords'])) {
             return $username;
         }
+
     
         // If no user is found or password is incorrect, return false
         return false;

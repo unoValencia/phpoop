@@ -14,12 +14,20 @@ if (isset($_POST['login'])) {
   $password = $_POST['password'];
   $result = $con->check($username, $password);
 
+
   if ($result) {
       $_SESSION['username'] = $result['username'];
+      if ($result['account_type'] == 0){
       header('location:index.php');
-  } else {
-      $error = "Incorrect username or password. Please try again.";
   }
+    else if
+    ($result['account_type'] == 1){
+      header('location:user_account.php');
+    }
+   else {
+      $error = '';
+  }
+}
 }
  
 ?>
