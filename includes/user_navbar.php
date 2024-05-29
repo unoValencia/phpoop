@@ -23,7 +23,7 @@ $profilePicture = $_SESSION['profile_picture'] ?? 'path/to/default/profile_pictu
         <a class="nav-link" href="user_account.php">Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item <?php echo ($current_page == 'enrolphp.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="enrol.php">Enrol Now</a>
+        <a class="nav-link" href="enrol.php">Enroll Now</a>
       </li>
       <li class="nav-item <?php echo ($current_page == 'enrolled_courses.php') ? 'active' : ''; ?>">
         <a class="nav-link" href="enrolled_courses.php">My Courses</a>
