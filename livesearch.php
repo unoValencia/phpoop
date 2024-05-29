@@ -101,7 +101,7 @@ try {
 <body>
 <?php include('includes/navbar.php'); ?>
 <div class="container user-info rounded shadow p-3 my-5">
-    <h2 class="text-center mb-2">User Table</h2>
+    <h2 class="text-center mb-2">Search For User</h2>
     <!-- Search input -->
     <div class="mb-3">
         <input type="text" id="search" class="form-control" placeholder="Search users...">
